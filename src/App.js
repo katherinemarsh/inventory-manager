@@ -3,7 +3,11 @@ import { render } from "react-dom";
 
 const App = () => {
   return (
-    <h1>Stock Track</h1>
+    <div className="p-4">
+      <div className="h-16 flex justify-between w-full">
+        <div>StockTrack</div>
+      </div>
+    </div>
   );
 };
 
