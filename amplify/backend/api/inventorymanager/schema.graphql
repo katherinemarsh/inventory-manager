@@ -1,0 +1,13 @@
+type Inventory @model {
+  id: ID!
+  name: String!
+  itemList: [InventoryItem] @hasMany
+}
+
+type InventoryItem @model {
+  id: ID!
+  inventory: Inventory @belongsTo
+  name: String!
+  primaryGrade: Float!
+  secondaryGrade: Float!
+}
