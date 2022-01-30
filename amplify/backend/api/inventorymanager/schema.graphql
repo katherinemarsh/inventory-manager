@@ -6,8 +6,10 @@ type Inventory @model {
 
 type InventoryItem @model {
   id: ID!
+  clientId: ID
   inventory: Inventory @belongsTo
   name: String!
+  startingQuantity: Float!
   primaryGrade: Float!
   secondaryGrade: Float!
 }

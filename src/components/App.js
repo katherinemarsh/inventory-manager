@@ -7,9 +7,9 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 
 import Amplify from "aws-amplify";
-import config from "./aws-exports";
-import InventoryList from "./InventoryList";
-import InventoryDetails from "./InventoryDetails";
+import config from "../aws-exports";
+import InventoryList from "../InventoryList";
+import InventoryDetails from "../InventoryDetails";
 Amplify.configure(config);
 
 const App = () => {

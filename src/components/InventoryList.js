@@ -1,5 +1,5 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { ListInventories } from "./graphql/queries";
+import { ListInventories } from "../graphql/queries";
 import { useEffect, useState } from "react";
 
 function InventoryList() {
