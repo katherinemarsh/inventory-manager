@@ -1,15 +1,18 @@
-type Inventory @model {
+type Inventory @model @auth(rules: [{ allow: owner }]) @aws_cognito_user_pools {
   id: ID!
   name: String!
   itemList: [InventoryItem] @hasMany
 }
 
-type InventoryItem @model {
+type InventoryItem
+  @model
+  @auth(rules: [{ allow: owner }])
+  @aws_cognito_user_pools {
   id: ID!
   clientId: ID
   inventory: Inventory @belongsTo
   name: String!
-  startingQuantity: Float!
+  quantity: Float!
   primaryGrade: Float!
   secondaryGrade: Float!
 }

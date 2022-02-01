@@ -10,6 +10,11 @@
       "StackName": "amplify-inventorymanager-dev-155900",
       "StackId": "arn:aws:cloudformation:us-east-2:417797241298:stack/amplify-inventorymanager-dev-155900/7451a1f0-820f-11ec-a6aa-0a9b9cd9c6f2",
       "AmplifyAppId": "d3nh1z5qktn8ie"
+    },
+    "categories": {
+      "auth": {
+        "inventorymanagerf0ebe3d5": {}
+      }
     }
   }
 }

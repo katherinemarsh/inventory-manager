@@ -9,17 +9,21 @@ export const getInventory = /* GraphQL */ `
       itemList {
         items {
           id
+          clientId
           name
+          quantity
           primaryGrade
           secondaryGrade
           createdAt
           updatedAt
           inventoryItemListId
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -38,6 +42,7 @@ export const listInventories = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -47,6 +52,7 @@ export const getInventoryItem = /* GraphQL */ `
   query GetInventoryItem($id: ID!) {
     getInventoryItem(id: $id) {
       id
+      clientId
       inventory {
         id
         name
@@ -55,13 +61,16 @@ export const getInventoryItem = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       name
+      quantity
       primaryGrade
       secondaryGrade
       createdAt
       updatedAt
       inventoryItemListId
+      owner
     }
   }
 `;
@@ -74,18 +83,22 @@ export const listInventoryItems = /* GraphQL */ `
     listInventoryItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        clientId
         inventory {
           id
           name
           createdAt
           updatedAt
+          owner
         }
         name
+        quantity
         primaryGrade
         secondaryGrade
         createdAt
         updatedAt
         inventoryItemListId
+        owner
       }
       nextToken
     }

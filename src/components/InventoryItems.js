@@ -1,5 +1,8 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
+import { useParams } from "react-router-dom";
+
+import { v4 as uuid } from "uuid";
 
 // import the mutation and query
 import { createInventoryItem as CreateInventoryItem } from "../graphql/mutations";
@@ -10,7 +13,7 @@ const CLIENT_ID = uuid();
 
 const initialState = {
   name: "",
-  startingQuantity: "",
+  quantity: "",
   primaryGrade: "",
   secondaryGrade: "",
   inventoryItems: [],
@@ -36,6 +39,7 @@ function reducer(state, action) {
 
 function InventoryItems() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const params = useParams();
 
   useEffect(() => {
     getData();
@@ -67,10 +71,10 @@ function InventoryItems() {
   }
 
   async function createInventoryItem() {
-    const { name, startingQuantity, primaryGrade, secondaryGrade } = state;
+    const { name, quantity, primaryGrade, secondaryGrade } = state;
     if (
       name === "" ||
-      startingQuantity === "" ||
+      quantity === "" ||
       primaryGrade === "" ||
       secondaryGrade === ""
     )
@@ -78,7 +82,7 @@ function InventoryItems() {
 
     const inventoryItem = {
       name,
-      startingQuantity,
+      quantity,
       primaryGrade,
       secondaryGrade,
     };
@@ -103,7 +107,7 @@ function InventoryItems() {
 
   // add UI with event handlers to manage user input
   return (
-    <div>
+    <div className="w-6/12">
       <div className="bg-neutralSecondary p-4 pb-6 flex flex-wrap items-end">
         <div className="w-full md:w-1/3 px-3">
           <label
@@ -133,7 +137,7 @@ function InventoryItems() {
             id="grid-starting-inventory"
             type="text"
             placeholder="Ex. 0"
-            value={state.startingQuantity}
+            value={state.quantity}
             onChange={onChange}
           />
         </div>
@@ -211,7 +215,7 @@ function InventoryItems() {
               id="grid-starting-inventory"
               type="text"
               placeholder="Ex. 0"
-              value={item.startingQuantity}
+              value={item.quantity}
             />
           </div>
           <div className="w-full sm:w-1/3 md:w-1/5 px-3">

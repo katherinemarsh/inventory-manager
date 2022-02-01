@@ -8,20 +8,27 @@ import {
 
 import Amplify from "aws-amplify";
 import config from "../aws-exports";
-import InventoryList from "../InventoryList";
-import InventoryDetails from "../InventoryDetails";
+import InventoryList from "./InventoryList";
+import UserAuth from "./UserAuth";
+import InventoryItems from "./InventoryItems";
+import InventoryEdit from "./InventoryEdit";
 Amplify.configure(config);
 
 const App = () => {
   return (
-    <div className="p-4">
+    <div className="p-4 bg-neutralSecondary">
       <div className="h-16 flex justify-between w-full">
         <div>StockTrack</div>
+        <UserAuth />
       </div>
       <Router>
         <Switch>
           <Route path="/inventory/:id">
-            <InventoryDetails />
+            <InventoryItems />
+            <InventoryEdit />
+          </Route>
+          <Route path="/inventory/edit/:id">
+            <InventoryEdit />
           </Route>
           <Route path="/">
             <InventoryList />

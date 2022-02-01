@@ -12,17 +12,21 @@ export const createInventory = /* GraphQL */ `
       itemList {
         items {
           id
+          clientId
           name
+          quantity
           primaryGrade
           secondaryGrade
           createdAt
           updatedAt
           inventoryItemListId
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -37,17 +41,21 @@ export const updateInventory = /* GraphQL */ `
       itemList {
         items {
           id
+          clientId
           name
+          quantity
           primaryGrade
           secondaryGrade
           createdAt
           updatedAt
           inventoryItemListId
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -62,17 +70,21 @@ export const deleteInventory = /* GraphQL */ `
       itemList {
         items {
           id
+          clientId
           name
+          quantity
           primaryGrade
           secondaryGrade
           createdAt
           updatedAt
           inventoryItemListId
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -83,6 +95,7 @@ export const createInventoryItem = /* GraphQL */ `
   ) {
     createInventoryItem(input: $input, condition: $condition) {
       id
+      clientId
       inventory {
         id
         name
@@ -91,13 +104,16 @@ export const createInventoryItem = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       name
+      quantity
       primaryGrade
       secondaryGrade
       createdAt
       updatedAt
       inventoryItemListId
+      owner
     }
   }
 `;
@@ -108,6 +124,7 @@ export const updateInventoryItem = /* GraphQL */ `
   ) {
     updateInventoryItem(input: $input, condition: $condition) {
       id
+      clientId
       inventory {
         id
         name
@@ -116,13 +133,16 @@ export const updateInventoryItem = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       name
+      quantity
       primaryGrade
       secondaryGrade
       createdAt
       updatedAt
       inventoryItemListId
+      owner
     }
   }
 `;
@@ -133,6 +153,7 @@ export const deleteInventoryItem = /* GraphQL */ `
   ) {
     deleteInventoryItem(input: $input, condition: $condition) {
       id
+      clientId
       inventory {
         id
         name
@@ -141,13 +162,16 @@ export const deleteInventoryItem = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       name
+      quantity
       primaryGrade
       secondaryGrade
       createdAt
       updatedAt
       inventoryItemListId
+      owner
     }
   }
 `;
