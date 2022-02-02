@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Hub, Auth} from "aws-amplify";
+import { Hub, Auth } from "aws-amplify";
 
 function UserAuth() {
   const [user, setUser] = useState(null);
@@ -35,11 +35,23 @@ function UserAuth() {
   return (
     <div>
       {user ? (
-        <div onClick={() => Auth.signOut()}>Sign Out</div>
+        <button
+          onClick={() => Auth.signOut()}
+          className="mx-auto text-center font-bold bg-textSecondary text-neutralPrimary rounded-full py-3 px-4"
+        >
+          Sign Out
+        </button>
       ) : (
-        <div onClick={() => Auth.federatedSignIn({ provider: "Google" })}>
-          Sign In with Google
-        </div>
+        <button
+          onClick={() => Auth.federatedSignIn({ provider: "Google" })}
+          className="inline-flex gap-2 items-center mx-auto text-center font-bold bg-textSecondary text-neutralPrimary rounded-full py-3 px-4"
+        >
+          <div>Sign In with Google</div>
+          <img
+            className="w-4"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/48px-Google_%22G%22_Logo.svg.png"
+          />
+        </button>
       )}
     </div>
   );

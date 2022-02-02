@@ -2,11 +2,13 @@ import { API, graphqlOperation } from "aws-amplify";
 import { listInventories as ListInventories } from "../graphql/queries";
 import { useEffect, useState } from "react";
 import { createInventory as CreateInventory } from "../graphql/mutations";
-import { useNavigate } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 function InventoryList() {
   const [inventories, updateInventories] = useState([]);
   const [name, setInventoryName] = useState("");
+  const [showNewModal, setShowNewModal] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     getInventories();
@@ -18,7 +20,7 @@ function InventoryList() {
         graphqlOperation(ListInventories)
       );
       console.log("inventoryData:", inventoryData);
-      updateTalks(inventoryData.data.ListInventories.items);
+      updateInventories(inventoryData.data.listInventories.items);
     } catch (err) {
       console.log("error fetching inventories...", err);
     }
@@ -37,36 +39,55 @@ function InventoryList() {
         query: CreateInventory,
         variables: { input: inventory },
       });
-      console.log(createInventoryData.data);
+      history.push(`/inventory/${createInventoryData.data.id}`);
       console.log("inventory created!");
-      const navigate = useNavigate();
-      useCallback(
-        () => navigate(`/inventory/${inventory.id}`, { replace: true }),
-        [navigate]
-      );
     } catch (err) {
       console.log("error creating inventory...", err);
     }
   }
+
+  const handleAddNewInventory = () => {
+    setShowNewModal(true);
+  };
+
   return (
-    <div>
+    <div className="p-4">
+      {inventories.length > 0 ? (
+        <h1 className="font-bold">Inventories</h1>
+      ) : (
+        <div>No Inventories Available</div>
+      )}
       {inventories.map((inventory, index) => (
         <div key={index}>
           <Link to={`/inventory/${inventory.id}`}>{inventory.name}</Link>
         </div>
       ))}
-      <div>
-        <h3> Enter New Inventory Name </h3>
-        <form onSubmit={createInventory}>
+      {showNewModal ? (
+        <form
+          onSubmit={createInventory}
+          className="bg-neutralSecondary p-4 m-4 ml-0"
+        >
           <input
             className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            placeholder="<Inventory Name>"
+            placeholder="New Inventory Name"
             value={name}
             onChange={(e) => setInventoryName(e.target.value)}
           />
-          <button type="submit">Submit</button>
+          <button
+            className="mx-auto mt-4 text-center font-bold bg-secondary text-neutralPrimary rounded-full py-3 px-4"
+            type="submit"
+          >
+            Submit
+          </button>
         </form>
-      </div>
+      ) : (
+        <button
+          onClick={handleAddNewInventory}
+          className="mx-auto mt-4 text-center font-bold bg-secondary text-neutralPrimary rounded-full py-3 px-4"
+        >
+          Add New Inventory
+        </button>
+      )}
     </div>
   );
 }

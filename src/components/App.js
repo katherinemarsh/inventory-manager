@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
+  Link,
 } from "react-router-dom/cjs/react-router-dom.min";
 
 import Amplify from "aws-amplify";
@@ -16,22 +17,31 @@ Amplify.configure(config);
 
 const App = () => {
   return (
-    <div className="p-4 bg-neutralSecondary">
-      <div className="h-16 flex justify-between w-full">
-        <div>StockTrack</div>
-        <UserAuth />
-      </div>
+    <div className="h-screen bg-neutralPrimary">
       <Router>
+        <div className="flex">
+          <div className="sm:w-3/5 w-full p-4">
+            <Link to="/">StockTrack</Link>
+          </div>
+          <div className="bg-primary w-2/5 sm:block text-right p-4">
+            <UserAuth />
+          </div>
+        </div>
         <Switch>
           <Route path="/inventory/:id">
-            <InventoryItems />
-            <InventoryEdit />
+            <div className="flex h-screen">
+              <InventoryItems className="sm:w-3/5 w-full p-4" />
+              <InventoryEdit className="w-2/5 sm:hidden" />
+            </div>
           </Route>
           <Route path="/inventory/edit/:id">
             <InventoryEdit />
           </Route>
           <Route path="/">
-            <InventoryList />
+            <div className="flex h-screen justify-between">
+              <InventoryList className="sm:w-3/5 w-full" />
+              <div className="w-2/5 sm:block bg-primary">Phone image here</div>
+            </div>
           </Route>
         </Switch>
       </Router>

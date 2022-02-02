@@ -2,11 +2,14 @@ import { API, graphqlOperation } from "aws-amplify";
 import { useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+
 import { v4 as uuid } from "uuid";
 
 // import the mutation and query
 import { createInventoryItem as CreateInventoryItem } from "../graphql/mutations";
-import { listInventoryItems as ListInventoryItems } from "../graphql/queries";
+import { getInventory as GetInventory } from "../graphql/queries";
 import { onCreateInventoryItem as OnCreateInventoryItem } from "../graphql/subscriptions";
 
 const CLIENT_ID = uuid();
@@ -57,13 +60,14 @@ function InventoryItems() {
 
   async function getData() {
     try {
-      const inventoryItemData = await API.graphql(
-        graphqlOperation(ListInventoryItems)
-      );
-      console.log("data from API: ", inventoryItemData);
+      const inventoryData = await API.graphql({
+        query: GetInventory,
+        variables: { id: params.id },
+      });
+      console.log("data from API: ", inventoryData);
       dispatch({
         type: "SET_INVENTORY_ITEMS",
-        talks: inventoryItemData.data.listInventoryItems.items,
+        inventoryItems: inventoryData.data.getInventory.itemList.items,
       });
     } catch (err) {
       console.log("error fetching data..", err);
@@ -80,11 +84,16 @@ function InventoryItems() {
     )
       return;
 
+    const floatQuant = parseFloat(quantity);
+    const floatGrade1 = parseFloat(primaryGrade);
+    const floatGrade2 = parseFloat(secondaryGrade);
+
     const inventoryItem = {
+      clientId: CLIENT_ID,
       name,
-      quantity,
-      primaryGrade,
-      secondaryGrade,
+      floatQuant,
+      floatGrade1,
+      floatGrade2,
     };
     const inventoryItems = [...state.inventoryItems, inventoryItem];
     dispatch({ type: "SET_INVENTORY_ITEMS", inventoryItems });
@@ -96,7 +105,7 @@ function InventoryItems() {
       );
       console.log("item created!");
     } catch (err) {
-      console.log("error creating talk...", err);
+      console.log("error creating inventory item...", err);
     }
   }
 
@@ -107,7 +116,7 @@ function InventoryItems() {
 
   // add UI with event handlers to manage user input
   return (
-    <div className="w-6/12">
+    <div className="bg-neutralPrimary sm:w-3/5 w-full px-4 sm:px-10 py-6">
       <div className="bg-neutralSecondary p-4 pb-6 flex flex-wrap items-end">
         <div className="w-full md:w-1/3 px-3">
           <label
@@ -250,6 +259,9 @@ function InventoryItems() {
           </div>
         </div>
       ))}
+      <div className="mx-auto mt-10 w-1/2 text-center font-bold bg-secondary text-neutralPrimary rounded-full py-3 px-4">
+        Generate QR Code
+      </div>
     </div>
   );
 }
