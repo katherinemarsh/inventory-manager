@@ -1,5 +1,8 @@
 import { StrictMode } from "react";
 import { render } from "react-dom";
+import phoneImg from "../images/phone.png";
+import emptyPhoneImg from "../images/emptyPhone.png";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -31,16 +34,25 @@ const App = () => {
           <Route path="/inventory/:id">
             <div className="flex h-screen">
               <InventoryItems className="sm:w-3/5 w-full p-4" />
-              <InventoryEdit className="w-2/5 sm:hidden" />
+              <div className="bg-primary hidden sm:block w-2/5 px-10 py-6 bg-pink-600">
+                <InventoryEdit className="h-[500px] w-[245px] mx-auto rounded-md" />
+              </div>
             </div>
           </Route>
-          <Route path="/inventory/edit/:id">
+          <Route path="/edit/:id">
             <InventoryEdit />
           </Route>
           <Route path="/">
             <div className="flex h-screen justify-between">
-              <InventoryList className="sm:w-3/5 w-full" />
-              <div className="w-2/5 sm:block bg-primary">Phone image here</div>
+              <div className="w-3/5">
+                <h1 className="text-7xl">
+                  Simple & Quick Inventory Management
+                </h1>
+                <InventoryList className="sm:w-3/5 w-full" />
+              </div>
+              <div className="w-2/5 sm:block bg-primary">
+                <img src={phoneImg} />
+              </div>
             </div>
           </Route>
         </Switch>

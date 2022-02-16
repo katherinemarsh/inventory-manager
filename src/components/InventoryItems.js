@@ -33,7 +33,7 @@ function reducer(state, action) {
     case "ADD_INVENTORY_ITEM":
       return {
         ...state,
-        inventoryItems: [...state.inventoryItems, action.inventoryItem],
+        inventoryItems: [action.inventoryItem, ...state.inventoryItems],
       };
     default:
       return state;
@@ -84,24 +84,23 @@ function InventoryItems() {
     )
       return;
 
-    const floatQuant = parseFloat(quantity);
-    const floatGrade1 = parseFloat(primaryGrade);
-    const floatGrade2 = parseFloat(secondaryGrade);
-
     const inventoryItem = {
       clientId: CLIENT_ID,
-      name,
-      floatQuant,
-      floatGrade1,
-      floatGrade2,
+      inventoryItemListId: params.id,
+      name: name,
+      quantity: parseFloat(quantity),
+      primaryGrade: parseFloat(primaryGrade),
+      secondaryGrade: parseFloat(secondaryGrade),
     };
-    const inventoryItems = [...state.inventoryItems, inventoryItem];
+    const inventoryItems = [inventoryItem, ...state.inventoryItems];
     dispatch({ type: "SET_INVENTORY_ITEMS", inventoryItems });
     dispatch({ type: "CLEAR_INPUT" });
 
     try {
       await API.graphql(
-        graphqlOperation(CreateInventoryItem, { input: inventoryItem })
+        graphqlOperation(CreateInventoryItem, {
+          input: inventoryItem,
+        })
       );
       console.log("item created!");
     } catch (err) {
@@ -116,7 +115,7 @@ function InventoryItems() {
 
   // add UI with event handlers to manage user input
   return (
-    <div className="bg-neutralPrimary sm:w-3/5 w-full px-4 sm:px-10 py-6">
+    <div className="bg-neutralPrimary relative sm:w-3/5 w-full px-4 sm:px-10 py-6">
       <div className="bg-neutralSecondary p-4 pb-6 flex flex-wrap items-end">
         <div className="w-full md:w-1/3 px-3">
           <label
@@ -128,6 +127,7 @@ function InventoryItems() {
           <input
             className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-item-name"
+            name="name"
             type="text"
             placeholder="Ex. Chocolate Tubs"
             value={state.name}
@@ -144,6 +144,7 @@ function InventoryItems() {
           <input
             className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-starting-inventory"
+            name="quantity"
             type="text"
             placeholder="Ex. 0"
             value={state.quantity}
@@ -160,6 +161,7 @@ function InventoryItems() {
           <input
             className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-interval-1"
+            name="primaryGrade"
             type="text"
             placeholder="Ex. 1"
             value={state.primaryGrade}
@@ -176,6 +178,7 @@ function InventoryItems() {
           <input
             className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-interval-2"
+            name="secondaryGrade"
             type="text"
             placeholder="Ex. 5"
             value={state.secondaryGrade}
