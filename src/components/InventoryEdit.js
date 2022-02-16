@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 
 // import the mutation and query
 import { getInventory as GetInventory } from "../graphql/queries";
+import { onCreateInventoryItem as OnCreateInventoryItem } from "../graphql/subscriptions";
+
 import { onUpdateInventory as OnUpdateInventory } from "../graphql/subscriptions";
 import { updateInventoryItem as UpdateInventoryItem } from "../graphql/mutations";
 
 const initialState = {
-  name: "",
   inventoryItems: [],
+  inventoryName: "",
 };
 
 function reducer(state, action) {
@@ -18,6 +20,11 @@ function reducer(state, action) {
       return { ...state, inventoryItems: action.inventoryItems };
     case "SET_INPUT":
       return { ...state, [action.key]: action.value };
+    case "ADD_INVENTORY_ITEM":
+      return {
+        ...state,
+        inventoryItems: [action.inventoryItem, ...state.inventoryItems],
+      };
     default:
       return state;
   }
@@ -30,14 +37,11 @@ function InventoryEdit() {
   useEffect(() => {
     getData();
     const subscription = API.graphql(
-      graphqlOperation(OnUpdateInventory)
+      graphqlOperation(OnCreateInventoryItem)
     ).subscribe({
       next: (eventData) => {
-        const inventoryData = eventData.value.data.OnUpdateInventory;
-        dispatch({
-          type: "SET_INVENTORY_ITEMS",
-          inventoryItems: inventoryData.itemList.items,
-        });
+        const inventoryItem = eventData.value.data.OnCreateInventoryItem;
+        dispatch({ type: "ADD_INVENTORY_ITEM", inventoryItem });
       },
     });
     return () => subscription.unsubscribe();
@@ -49,7 +53,7 @@ function InventoryEdit() {
         query: GetInventory,
         variables: { id: params.id },
       });
-      console.log("data from API: ", inventoryData);
+      state.inventoryName = inventoryData.data.getInventory.name;
       dispatch({
         type: "SET_INVENTORY_ITEMS",
         inventoryItems: inventoryData.data.getInventory.itemList.items,
@@ -73,9 +77,13 @@ function InventoryEdit() {
     });
   }
 
+  function handleEditSubmit() {
+    console.log("handle edit submit");
+  }
+
   return (
-    <div className="bg-neutralPrimary p-4">
-      {state.name}
+    <div className="bg-neutralPrimary p-6 mx-auto rounded-md">
+      <div className="font-bold mb-2">{state.inventoryName}</div>
       {state.inventoryItems.map((item, index) => (
         <div key={index} className="mb-2">
           <div className="mb-1">{item.name}</div>
@@ -93,7 +101,7 @@ function InventoryEdit() {
               {"-" + item.primaryGrade}
             </button>
             <input
-              className="block text-textPrimary text-center appearance-none bg-gray-200 text-gray-700 border border-red-500 p-4 leading-tight focus:outline-none focus:bg-white"
+              className="block w-full text-textPrimary text-center appearance-none border border-black p-4 leading-tight focus:outline-none focus:bg-white"
               id="grid-item-name"
               type="text"
               placeholder=""
@@ -115,7 +123,10 @@ function InventoryEdit() {
           </div>
         </div>
       ))}
-      <div className="mx-auto mt-10 w-1/2 text-center font-bold bg-secondary text-neutralPrimary rounded-full py-3 px-4">
+      <div
+        onClick={() => handleEditSubmit}
+        className="mx-auto mt-10 w-1/2 text-center font-bold bg-secondary text-neutralPrimary rounded-full py-3 px-4"
+      >
         Submit
       </div>
     </div>

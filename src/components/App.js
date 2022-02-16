@@ -20,7 +20,7 @@ Amplify.configure(config);
 
 const App = () => {
   return (
-    <div className="h-screen bg-neutralPrimary">
+    <div className="bg-neutralPrimary">
       <Router>
         <div className="flex">
           <div className="sm:w-3/5 w-full p-4">
@@ -32,10 +32,12 @@ const App = () => {
         </div>
         <Switch>
           <Route path="/inventory/:id">
-            <div className="flex h-screen">
+            <div className="flex">
               <InventoryItems className="sm:w-3/5 w-full p-4" />
-              <div className="bg-primary hidden sm:block w-2/5 px-10 py-6 bg-pink-600">
-                <InventoryEdit className="h-[500px] w-[245px] mx-auto rounded-md" />
+              <div className="bg-primary hidden sm:block w-2/5 px-10 py-6">
+                <div className="w-380 mx-auto">
+                  <InventoryEdit />
+                </div>
               </div>
             </div>
           </Route>
@@ -43,7 +45,7 @@ const App = () => {
             <InventoryEdit />
           </Route>
           <Route path="/">
-            <div className="flex h-screen justify-between">
+            <div className="flex justify-between">
               <div className="w-3/5">
                 <h1 className="text-7xl">
                   Simple & Quick Inventory Management

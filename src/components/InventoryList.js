@@ -68,7 +68,7 @@ function InventoryList() {
           className="bg-neutralSecondary p-4 m-4 ml-0"
         >
           <input
-            className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             placeholder="New Inventory Name"
             value={name}
             onChange={(e) => setInventoryName(e.target.value)}

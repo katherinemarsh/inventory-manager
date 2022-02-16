@@ -15,6 +15,7 @@ import { onCreateInventoryItem as OnCreateInventoryItem } from "../graphql/subsc
 const CLIENT_ID = uuid();
 
 const initialState = {
+  inventoryName: "",
   name: "",
   quantity: "",
   primaryGrade: "",
@@ -64,7 +65,7 @@ function InventoryItems() {
         query: GetInventory,
         variables: { id: params.id },
       });
-      console.log("data from API: ", inventoryData);
+      state.inventoryName = inventoryData.data.getInventory.name;
       dispatch({
         type: "SET_INVENTORY_ITEMS",
         inventoryItems: inventoryData.data.getInventory.itemList.items,
@@ -116,6 +117,7 @@ function InventoryItems() {
   // add UI with event handlers to manage user input
   return (
     <div className="bg-neutralPrimary relative sm:w-3/5 w-full px-4 sm:px-10 py-6">
+      <div className="font-bold mb-2">{state.inventoryName}</div>
       <div className="bg-neutralSecondary p-4 pb-6 flex flex-wrap items-end">
         <div className="w-full md:w-1/3 px-3">
           <label
@@ -125,7 +127,7 @@ function InventoryItems() {
             Item Name
           </label>
           <input
-            className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-item-name"
             name="name"
             type="text"
@@ -142,7 +144,7 @@ function InventoryItems() {
             Starting Quantity
           </label>
           <input
-            className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-starting-inventory"
             name="quantity"
             type="text"
@@ -159,7 +161,7 @@ function InventoryItems() {
             1st Magnitude
           </label>
           <input
-            className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-interval-1"
             name="primaryGrade"
             type="text"
@@ -176,7 +178,7 @@ function InventoryItems() {
             2nd Magnitude
           </label>
           <input
-            className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-interval-2"
             name="secondaryGrade"
             type="text"
@@ -208,7 +210,7 @@ function InventoryItems() {
               Item Name
             </label>
             <input
-              className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-item-name"
               type="text"
               placeholder="Ex. Chocolate Tubs"
@@ -223,7 +225,7 @@ function InventoryItems() {
               Starting Quantity
             </label>
             <input
-              className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-starting-inventory"
               type="text"
               placeholder="Ex. 0"
@@ -238,7 +240,7 @@ function InventoryItems() {
               1st Magnitude
             </label>
             <input
-              className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-interval-1"
               type="text"
               placeholder="Ex. 1"
@@ -253,7 +255,7 @@ function InventoryItems() {
               2nd Magnitude
             </label>
             <input
-              className="block w-full appearance-none bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              className="block w-full appearance-none border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-interval-2"
               type="text"
               placeholder="Ex. 5"
