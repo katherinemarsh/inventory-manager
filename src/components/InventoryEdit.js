@@ -70,7 +70,12 @@ function InventoryEdit() {
 
   function updateItemCount(index, magnitude) {
     const updatedInventoryItems = state.inventoryItems;
-    updatedInventoryItems[index].quantity += magnitude;
+    const currentQuantity = updatedInventoryItems[index].quantity;
+    if (currentQuantity + magnitude < 0) {
+      updatedInventoryItems[index].quantity = 0;
+    } else {
+      updatedInventoryItems[index].quantity += magnitude;
+    }
     dispatch({
       type: "SET_INVENTORY_ITEMS",
       inventoryItems: updatedInventoryItems,
@@ -78,11 +83,12 @@ function InventoryEdit() {
   }
 
   function handleEditSubmit() {
+    // send an email to inventory owner notifying them of inventory update
     console.log("handle edit submit");
   }
 
   return (
-    <div className="bg-neutralPrimary p-6 mx-auto rounded-md">
+    <div className="bg-neutralPrimary p-6 rounded-md">
       <div className="font-bold mb-2">{state.inventoryName}</div>
       {state.inventoryItems.map((item, index) => (
         <div key={index} className="mb-2">

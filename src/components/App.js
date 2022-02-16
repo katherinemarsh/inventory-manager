@@ -35,6 +35,9 @@ const App = () => {
             <div className="flex">
               <InventoryItems className="sm:w-3/5 w-full p-4" />
               <div className="bg-primary hidden sm:block w-2/5 px-10 py-6">
+                <div className="text-center font-bold mb-2">
+                  Inventory Edit Preview
+                </div>
                 <div className="w-380 mx-auto">
                   <InventoryEdit />
                 </div>
